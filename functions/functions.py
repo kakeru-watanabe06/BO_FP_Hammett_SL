@@ -205,6 +205,7 @@ def compare_all_methods(df, X_cols, Y_cols, target,
                         mdl.set_XY(X_tr, Y_tr_s[:, [obj_idx]])
                         mdl.optimize(messages=False, max_iters=5)
                         # print(mdl)
+                        
 
     # DataFrame 化
     df_hits = pd.DataFrame(
