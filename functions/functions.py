@@ -68,8 +68,6 @@ def fit_multi_gpy(X: np.ndarray, Y: np.ndarray):
     for i in range(Y.shape[1]):
         kern = GPy.kern.Exponential(input_dim=X.shape[1], ARD=False)
         m = GPy.models.GPRegression(X, Y[:, [i]], kern)
-        # m.Gaussian_noise.variance = 1e-6
-        # m.Gaussian_noise.variance.fix()
         m.optimize(messages=False,max_iters=5)
         models.append(m)
         # print(m)
@@ -160,7 +158,7 @@ def compare_all_methods(df, X_cols, Y_cols, target,
                 # ——— 獲得関数の計算 ———
                 if m == 'lcb':
                     mu, var = predict_multi_gpy(models, X_cd)
-                    scores  = l2_lcb_per_dim(mu, var, t_s, p)
+                    scores  = l2_lcb_exact(mu, var, t_s, p)
                 elif m == 'ei':
                     mu, var = predict_multi_gpy(models, X_cd)
                     y_min   = np.min(np.sum((Y_tr_s - t_s)**2, axis=1))
